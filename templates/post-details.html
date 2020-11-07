@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+    <!-- Page Content -->
+    <div class="container">
+        <div class="row">
+            <!-- Post Content Column -->
+            <div class="col-lg-8">
+                <!-- Title -->
+                <h1 class="mt-4">{{ post.title }}</h1>
+                <hr>
+                <!-- Date/Time -->
+                <p>Posted on {{ post.timestamp.date }}</p>
+                <hr>
+                <!-- Preview Image NOTE: If statement is for test purposes -->
+                {% if post.thumbnail %}
+                    <img class="img-fluid" src="{{ post.thumbnail.url }}">
+                {% endif %}
+                <hr>
+                <!-- Post Content -->
+                {{ post.content|safe }}
+                <hr>
+            </div>
+            {% include "includes/side-widgets.html" with categories=categories %}
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container -->
+{% endblock content %}

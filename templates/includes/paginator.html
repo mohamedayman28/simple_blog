@@ -1,0 +1,27 @@
+<!-- Pagination -->
+<ul class="pagination justify-content-center mb-4">
+    {% if posts.has_previous %}
+        <li class="page-item">
+            <a class="page-link"
+                href="?page={{ posts.previous_page_number }}{% if query %}&query={{ query }}{% endif %}">
+                &larr; Previous
+            </a>
+        </li>
+    {% else %}
+        <li class="page-item disabled">
+            <a class="page-link">&larr; Previous</a>
+        </li>
+    {% endif %}
+    {% if posts.has_next %}
+        <li class="page-item">
+            <a class="page-link"
+                href="?page={{ posts.next_page_number }}{% if query %}&query={{ query }}{% endif %}">
+                Next &rarr;
+            </a>
+        </li>
+    {% else %}
+        <li class="page-item disabled">
+            <a class="page-link">Next &rarr;</a>
+        </li>
+    {% endif %}
+</ul>

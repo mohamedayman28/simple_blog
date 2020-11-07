@@ -1,0 +1,39 @@
+<!-- Sidebar Widgets Column -->
+<div class="col-md-4">
+
+    <!-- Search Widget -->
+    <div class="card my-4">
+        <!-- Title -->
+        <h5 class="card-header">Search</h5>
+        <div class="card-body">
+            <!-- Form -->
+            <form class="form-inline" action="{% url 'posts:home_page' %}">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="query"
+                            placeholder="Search for...">
+                    <span class="input-group-append">
+                        <button class="btn btn-secondary" for='search_form' type="submit">Go!</button>
+                    </span>
+                </div>
+            </form>
+        </div> <!-- ./card-body -->
+    </div>
+
+    <!-- Categories Widget -->
+    <div class="card my-4">
+        <h5 class="card-header">Categories</h5>
+        <div class="card-body">
+            {% for category in categories %}
+                <a href="#" class="border p-2 m-1 rounded d-inline-block">{{ category }}</a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Side Widget -->
+    <div class="card my-4">
+        <h5 class="card-header">Side Widget</h5>
+        <div class="card-body">
+            “Hi there! Welcome to <b>SimpleBlog</b>, where these writers shares everyday ideas and lessons.”
+        </div>
+    </div>
+</div>

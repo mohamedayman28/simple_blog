@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {# Page Content #}
+    <div class="container">
+        <div class="row">
+            {# Blog Entries Column #}
+            <div class="col-md-8">
+                <h1 class="my-4">{{ title }}</h1>
+                {# Search match #}
+                {% if posts %}
+                    {% for post in posts  %}
+                        {# Blog Post #}
+                        <div class="card mb-4">
+                            {# If statement is for test purposes #}
+                            {% if post.thumbnail %}
+                                <img class="card-img-top" src="{{ post.thumbnail.url }}">
+                            {% endif %}
+                            <div class="card-body">
+                                <h2 class="card-title">{{ post.title }}</h2>
+                                <p class="card-text">{{ post.overview }}</p>
+                                <a href="{{ post.get_absolute_url }}" class="btn btn-primary">Read More &rarr;</a>
+                            </div>
+                            <div class="card-footer text-muted">
+                                <span class="btn btn-light disabled">Posted on {{ post.timestamp.date }}</span>
+                                {% if post.author.name == user.author.name %}
+                                    <span class="btn btn-danger float-right mx-2">Delete</span>
+                                    <span class="btn btn-primary float-right mx-2">Update</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {# No search match #}
+                {% else %}
+                    <div class="card bg-light mb-3">
+                        <div class="card-body">
+                            <h1 class="card-title">Sorry, there is no match.</h1>
+                            <p class="card-text">
+                                Try another query or go to <a href="{% url 'posts:home_page' %}">Home</a>
+                            </p>
+                        </div>
+                    </div>
+                {% endif %}
+
+            {# Pagination #}
+            {% include "includes/paginator.html" with posts=posts %}
+            </div>
+
+            {% include "includes/side-widgets.html" with categories=categories %}
+        </div>
+    </div>
+{% endblock content %}
+
