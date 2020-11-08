@@ -8,17 +8,64 @@
                 <!-- Title -->
                 <h1 class="mt-4">{{ post.title }}</h1>
                 <hr>
+
                 <!-- Date/Time -->
                 <p>Posted on {{ post.timestamp.date }}</p>
                 <hr>
+
                 <!-- Preview Image NOTE: If statement is for test purposes -->
                 {% if post.thumbnail %}
                     <img class="img-fluid" src="{{ post.thumbnail.url }}">
                 {% endif %}
                 <hr>
+
                 <!-- Post Content -->
                 {{ post.content|safe }}
                 <hr>
+
+                {# Comments Form #}
+                {% if user.is_authenticated %}
+                    <div class="card my-4">
+                        <h5 class="card-header">Leave a Comment:</h5>
+                        <div class="card-body">
+                            <form>
+                                <div class="form-group">
+                                    <textarea class="form-control" rows="3"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- Comment with its replies -->
+                {% for comment in post.comment_set.all %}
+                    {# Comment #}
+                    <div class="media mb-4">
+                        {# Profile picture #}
+                        <img class="d-flex mr-3 rounded-circle" src="{{ comment.commenter.author.profile_pic.url }}" style="width:50px;">
+                        <div class="media-body">
+                            {# Name #}
+                            <h5 class="mt-0">{{ comment.commenter.username }}</h5>
+                            {# Content #}
+                            {{ comment.content }}
+
+                            {% for replay in comment.replay_set.all %}
+                            {# Comment replies #}
+                            <div class="media mt-4">
+                                {# Profile picture #}
+                                <img class="d-flex mr-3 rounded-circle" src="{{ replay.commenter.author.profile_pic.url }}" style="width:50px;">
+                                <div class="media-body">
+                                    {# Name #}
+                                    <h5 class="mt-0">{{ replay.commenter.username }}</h5>
+                                    {# Content #}
+                                    {{ replay.content }}
+                                </div>
+                            </div> {# Comment replies #}
+                            {% endfor %}
+                        </div>
+                    </div> {# Parent comment #}
+                {% endfor %}
             </div>
             {% include "includes/side-widgets.html" with categories=categories %}
         </div>

@@ -4,7 +4,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
 from django.shortcuts import render, redirect, reverse, get_object_or_404
-from django.http import HttpResponse
 # Created
 from posts.models import Post, Category
 from posts.forms import PostForm
@@ -19,30 +18,29 @@ def home_page(request, category=None):
     title = 'Home page'
     posts = Post.objects.all()
 
-    # Filter by category
+    # Filter by category.
     if category:
         posts = Post.objects.filter(categories__name__icontains=category)
 
-    # Search results
+    # Search results.
     query = request.GET.get('query')
     if query and not query.isspace():
-        # Change page title
+        # Change page title.
         title = 'Search results'
-        # Get related query posts
+        # Get related query posts.
         posts = Post.objects.filter(
             Q(title__icontains=query) | Q(content__icontains=query)
         )
 
-    # Pagination
+    # Pagination.
     paginator = Paginator(posts, 4)
     page = request.GET.get('page')
     try:
         paginated_queryset = paginator.page(page)
     except PageNotAnInteger:
-        # First page
         paginated_queryset = paginator.page(1)
     except EmptyPage:
-        # Last page
+        # Last page.
         paginated_queryset = paginator.page(paginator.num_pages)
 
     context = {
@@ -57,60 +55,47 @@ def home_page(request, category=None):
     return render(request, 'home.html', context)
 
 
-# def post_details(request, id):
-#     try:
-
-#         post = Post.objects.get(id=id)
-
-#         context = {
-#             'post': post,
-#             'title': f'{post.title} post'
-#         }
-#         return render(request, 'post-details.html', context)
-#     except Exception as e:
-#         messages.warning(request, e)
-
-#     return redirect('posts:home_page')
-
-
 def post_view(request, id=None):
-    """Wrap-up the CRUD operations in single view."""
+    """Wrap-up the post model CRUD operations in single view."""
+    context = {
+        'categories': categories,
+        'title': None,
+        'form': None,
+        'post': None,
+    }
+
+    # Get request.
+    if request.resolver_match.url_name == 'details':
+        # NOTE: Fix the 404 returning
+        context['post'] = get_object_or_404(Post, id=id)
+        return render(request, 'post-details.html', context)
+
     try:
         author = request.user.author
 
         # If user is an author
         if author:
-            context = {
-                'categories': categories,
-                'title': None,
-                'form': None,
-                'post': None,
-            }
 
-            # Post model CRUD operations
+            # Post model CRUD operations.
 
-            # Delete request
+            # Delete request.
             if request.resolver_match.url_name == 'delete':
                 post = get_object_or_404(Post, id=id)
                 messages.success(request, f'{post.title} deleted.')
                 post.delete()
                 return redirect('posts:home_page')
-            # NOTE: Both Update and Create request related to the same HTML
+            # NOTE: Both Update and Create request related to the same HTML.
             # Update request with model instance for the form.
             elif request.resolver_match.url_name == 'update':
                 context['title'] = 'Update post'
                 post = get_object_or_404(Post, id=id)
                 form = PostForm(request.POST or None, instance=post)
-                # Next to general render
-            # Create request with regular form
+                # Next to general render.
+            # Create request with regular form.
             elif request.resolver_match.url_name == 'create':
                 context['title'] = 'Create new post'
                 form = PostForm(request.POST or None)
-                # Next to general render
-            # Get request.
-            else:
-                context['post'] = get_object_or_404(Post, id=id)
-                return render(request, 'post-details.html', context)
+                # Next to general render.
 
             # Form actions associated with Update and Create requests.
             if request.method == 'POST':
@@ -127,7 +112,7 @@ def post_view(request, id=None):
             context['form'] = form
             return render(request, 'create-post.html', context)
 
-    # If user is not an author
+    # If user is not an author.
     except Exception as e:
         messages.warning(request, e)
         return redirect('posts:home_page')

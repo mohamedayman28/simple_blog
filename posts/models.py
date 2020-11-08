@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.shortcuts import reverse
 from django.db import models
+from django.contrib.auth.models import User
 
 from filebrowser.fields import FileBrowseField
 from tinymce import HTMLField
@@ -10,7 +11,7 @@ user = settings.AUTH_USER_MODEL
 
 
 class Author(models.Model):
-    name = models.OneToOneField(user, on_delete=models.CASCADE)
+    name = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_pic = FileBrowseField(max_length=200)
 
     def __str__(self):
@@ -53,3 +54,23 @@ class Post(models.Model):
 
     def get_delete_url(self):
         return reverse('posts:delete', kwargs={'id': self.id})
+
+
+class UserInteraction(models.Model):
+    """Mutual fields within Comment and Replay models"""
+    commenter = models.ForeignKey(user, on_delete=models.CASCADE)
+    content = models.TextField()
+
+    def __str__(self):
+        return self.commenter.username
+
+    class Meta:
+        abstract = True
+
+
+class Comment(UserInteraction):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+
+
+class Replay(UserInteraction):
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
