@@ -16,6 +16,11 @@
                             <a class="nav-link" target="_" href="{% url 'admin:index' %}">Admin</a>
                         </li>
                     {% endif %}
+                    {% if user.author %}
+                        <li class="nav-item">
+                            <a class="nav-link text-success" href="{% url 'posts:create' %}">Create</a>
+                        </li>
+                    {% endif %}
                 {% endwith %}
             </ul>
         </div>

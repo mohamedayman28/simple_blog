@@ -30,11 +30,9 @@ class Category(models.Model):
 class Post(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=50)
-    # blank and null for test purposes
-    thumbnail = FileBrowseField(max_length=200, null=True, blank=True)
+    thumbnail = FileBrowseField(max_length=200, null=True)
     overview = models.CharField(max_length=300)
-    # blank and null for test purposes
-    content = HTMLField(null=True, blank=True)
+    content = HTMLField(null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     categories = models.ManyToManyField(Category)
 
@@ -46,3 +44,12 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('posts:details', kwargs={'id': self.id})
+
+    def get_create_url(self):
+        return reverse('posts:create', kwargs={'id': self.id})
+
+    def get_update_url(self):
+        return reverse('posts:update', kwargs={'id': self.id})
+
+    def get_delete_url(self):
+        return reverse('posts:delete', kwargs={'id': self.id})

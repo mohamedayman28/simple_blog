@@ -1,7 +1,10 @@
 # Defaults
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.db.models import Q
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.http import HttpResponse
 # Created
 from posts.models import Post, Category
 from posts.forms import PostForm
@@ -54,24 +57,77 @@ def home_page(request, category=None):
     return render(request, 'home.html', context)
 
 
-def details_post(request, id):
-    post = get_object_or_404(Post, id=id)
+# def post_details(request, id):
+#     try:
 
-    context = {
-        'title': 'Post',
-        'post': post,
-        'categories': categories,
-    }
+#         post = Post.objects.get(id=id)
 
-    return render(request, 'post-details.html', context)
+#         context = {
+#             'post': post,
+#             'title': f'{post.title} post'
+#         }
+#         return render(request, 'post-details.html', context)
+#     except Exception as e:
+#         messages.warning(request, e)
+
+#     return redirect('posts:home_page')
 
 
-def create_post(request):
-    form = PostForm(request.POST or None)
+def post_view(request, id=None):
+    """Wrap-up the CRUD operations in single view."""
+    try:
+        author = request.user.author
 
-    context = {
-        'title': 'Create Post',
-        'form': form,
-    }
+        # If user is an author
+        if author:
+            context = {
+                'categories': categories,
+                'title': None,
+                'form': None,
+                'post': None,
+            }
 
-    return render(request, 'create-post.html', context)
+            # Post model CRUD operations
+
+            # Delete request
+            if request.resolver_match.url_name == 'delete':
+                post = get_object_or_404(Post, id=id)
+                messages.success(request, f'{post.title} deleted.')
+                post.delete()
+                return redirect('posts:home_page')
+            # NOTE: Both Update and Create request related to the same HTML
+            # Update request with model instance for the form.
+            elif request.resolver_match.url_name == 'update':
+                context['title'] = 'Update post'
+                post = get_object_or_404(Post, id=id)
+                form = PostForm(request.POST or None, instance=post)
+                # Next to general render
+            # Create request with regular form
+            elif request.resolver_match.url_name == 'create':
+                context['title'] = 'Create new post'
+                form = PostForm(request.POST or None)
+                # Next to general render
+            # Get request.
+            else:
+                context['post'] = get_object_or_404(Post, id=id)
+                return render(request, 'post-details.html', context)
+
+            # Form actions associated with Update and Create requests.
+            if request.method == 'POST':
+                if form.is_valid():
+                    form.instance.author = author
+                    form.save()
+                    messages.success(request, f'{form.instance.title} Created')
+                    return redirect(
+                        reverse('posts:details', kwargs={
+                                'id': form.instance.id})
+                    )
+
+            # General render. Mutual between Create and Update.
+            context['form'] = form
+            return render(request, 'create-post.html', context)
+
+    # If user is not an author
+    except Exception as e:
+        messages.warning(request, e)
+        return redirect('posts:home_page')

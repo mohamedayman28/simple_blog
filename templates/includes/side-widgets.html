@@ -24,7 +24,7 @@
         <h5 class="card-header">Categories</h5>
         <div class="card-body">
             {% for category in categories %}
-                <a href="#" class="border p-2 m-1 rounded d-inline-block">{{ category }}</a>
+                <a href="{% url 'posts:category' category %}" class="border p-2 m-1 rounded d-inline-block">{{ category }}</a>
             {% endfor %}
         </div>
     </div>

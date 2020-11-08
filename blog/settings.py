@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # Third party
     'filebrowser',
     'tinymce',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -136,13 +137,21 @@ STATIC_ROOT = BASE_DIR / 'static_in_deploy'
 FILEBROWSER_DIRECTORY = ''
 DIRECTORY = ''
 
+# Crispy forms
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# Authentications settings
+
+LOGIN_REDIRECT_URL = 'posts:create'
+LOGOUT_REDIRECT_URL = 'posts:home_page'
 
 # TinyMce settings
 
 TINYMCE_DEFAULT_CONFIG = {
-    # To maximize the width and height according to the parent div
-    'height': 360,
-    'width': 970,
+    # Comment to maximize the width and height according to the parent div
+    # 'height': 360,
+    # 'width': 970,
     'cleanup_on_startup': True,
     'custom_undo_redo_levels': 20,
     'selector':

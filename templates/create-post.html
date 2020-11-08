@@ -1,6 +1,22 @@
 {% extends "base.html" %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
-    {% csrf_token %}
-    {{ form.as_p }}
+    {# Page Content #}
+    <div class="container">
+        <div class="row">
+            {# Form field column #}
+            <div class="col-md-8 mb-4">
+                <h1 class="my-4">{{ title }}</h1>
+                {{ form.media }}
+                <form method="POST" action=".">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button class="btn btn-block btn-primary" type="submit">Create</button>
+                </form>
+            </div>
+            {% include "includes/side-widgets.html" with categories=categories %}
+        </div>
+    </div>
 {% endblock content %}
