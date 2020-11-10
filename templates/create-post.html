@@ -8,41 +8,39 @@
                 {{ form.media }}
                 <form action="." method="POST">
                     {% csrf_token %}
-                    {# Title #}
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
-                            {{ form.title|add_class:"form-control" }}
+                    {% for field in form %}
+                        {# Title #}
+                        {% if field.name == 'title' %}
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+                                    {{ form.title|add_class:"form-control" }}
+                                </div>
+                            </div>
+                        {# Categories #}
+                        {% elif field.name == 'categories' %}
+                            <hr class="mb-4">
+                            <h5>Categories</h5>
+                            {% for category in categories  %}
+                                <div class="custom-control custom-checkbox">
+                                    <input
+                                        value="{{ category.id }}"
+                                        name="{{ form.categories.name }}"
+                                        type="checkbox"
+                                        class="custom-control-input"
+                                        id="{{ category.id }}"
+                                        {% if category.id in form.categories.value %}checked{% endif %}
+                                    >{# end of input #}
+                                    <label class="custom-control-label" for="{{ category.id }}">{{ category }}</label>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                        {# Rest of the form field #}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field|add_class:"form-control" }}
                         </div>
-                    </div>
-                    {# Thumbnail #}
-                    <div class="mb-3">
-                        <label for="{{ form.thumbnail.id_for_label }}">{{ form.thumbnail.label }}</label>
-                        {{ form.thumbnail|add_class:"form-control" }}
-                    </div>
-                    {# Overview #}
-                    <div class="mb-3">
-                        <label for="{{ form.overview.id_for_label }}">{{ form.overview.label }}</label>
-                        {{ form.overview|add_class:"form-control" }}
-                    </div>
-                    {# Content #}
-                    <div class="mb-3">
-                        <label for="{{ form.content.id_for_label }}">{{ form.content.label }}</label>
-                        {{ form.content|add_class:"form-control" }}
-                    </div>
-                    {# Categories #}
-                    <hr class="mb-4">
-                    <h5>Categories</h5>
-                    {% for category in categories  %}
-                        <div class="custom-control custom-checkbox">
-                            <input value="{{ category.id }}"
-                                    name="{{ form.categories.name }}"
-                                    type="checkbox"
-                                    class="custom-control-input"
-                                    id="{{ category.id }}"
-                                    {% if category.id in form.categories.value %}checked{% endif %}>
-                            <label class="custom-control-label" for="{{ category.id }}">{{ category }}</label>
-                        </div>
+                        {% endif %}
                     {% endfor %}
 
                     <hr class="mb-4">
