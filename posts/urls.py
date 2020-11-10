@@ -12,7 +12,7 @@ urlpatterns = [
     # Create new post.
     path('create-post/', views.post_view, name='create'),
     # Get post details.
-    path('post/<id>/', views.post_view, name='details'),
+    path('post/<id>/', views.post_details, name='details'),
     # Update post.
     path('update-post/<id>/', views.post_view, name='update'),
     # Delete post

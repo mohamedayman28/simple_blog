@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block content %}
     <!-- Page Content -->
     <div class="container">
@@ -28,9 +30,10 @@
                     <div class="card my-4">
                         <h5 class="card-header">Leave a Comment:</h5>
                         <div class="card-body">
-                            <form>
+                            <form method="POST" action=".">
+                                {% csrf_token %}
                                 <div class="form-group">
-                                    <textarea class="form-control" rows="3"></textarea>
+                                    <textarea class="form-control" rows="3" name="content"></textarea>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </form>
@@ -43,7 +46,11 @@
                     {# Comment #}
                     <div class="media mb-4">
                         {# Profile picture #}
-                        <img class="d-flex mr-3 rounded-circle" src="{{ comment.commenter.author.profile_pic.url }}" style="width:50px;">
+                        {% if comment.commenter.author.profile_pic %}
+                            <img class="d-flex mr-3 rounded-circle" src="{{ comment.commenter.author.profile_pic.url }}" style="width:50px;">
+                        {% else %}
+                            <img class="d-flex mr-3 rounded-circle" src="{% static 'img/default.jpg' %}" style="width:50px;">
+                        {% endif %}
                         <div class="media-body">
                             {# Name #}
                             <h5 class="mt-0">{{ comment.commenter.username }}</h5>

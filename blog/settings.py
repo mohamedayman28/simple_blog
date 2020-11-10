@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # Created Apps
     'posts',
+    'accounts',
     # Defaults
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,7 +44,7 @@ INSTALLED_APPS = [
     # Third party
     'filebrowser',
     'tinymce',
-    'crispy_forms',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -136,10 +137,6 @@ STATIC_ROOT = BASE_DIR / 'static_in_deploy'
 
 FILEBROWSER_DIRECTORY = ''
 DIRECTORY = ''
-
-# Crispy forms
-
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Authentications settings
 

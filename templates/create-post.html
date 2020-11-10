@@ -1,22 +1,55 @@
 {% extends "base.html" %}
-
-{% load crispy_forms_tags %}
-
+{% load widget_tweaks %}
 {% block content %}
-    {# Page Content #}
-    <div class="container">
+    <div class="container my-5">
         <div class="row">
-            {# Form field column #}
-            <div class="col-md-8 mb-4">
-                <h1 class="my-4">{{ title }}</h1>
+            <div class="col-md-8">
+                <h4 class="mb-3">{{ title }}</h4>
                 {{ form.media }}
-                <form method="POST" action=".">
+                <form action="." method="POST">
                     {% csrf_token %}
-                    {{ form|crispy }}
-                    <button class="btn btn-block btn-primary" type="submit">Create</button>
+                    {# Title #}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+                            {{ form.title|add_class:"form-control" }}
+                        </div>
+                    </div>
+                    {# Thumbnail #}
+                    <div class="mb-3">
+                        <label for="{{ form.thumbnail.id_for_label }}">{{ form.thumbnail.label }}</label>
+                        {{ form.thumbnail|add_class:"form-control" }}
+                    </div>
+                    {# Overview #}
+                    <div class="mb-3">
+                        <label for="{{ form.overview.id_for_label }}">{{ form.overview.label }}</label>
+                        {{ form.overview|add_class:"form-control" }}
+                    </div>
+                    {# Content #}
+                    <div class="mb-3">
+                        <label for="{{ form.content.id_for_label }}">{{ form.content.label }}</label>
+                        {{ form.content|add_class:"form-control" }}
+                    </div>
+                    {# Categories #}
+                    <hr class="mb-4">
+                    <h5>Categories</h5>
+                    {% for category in categories  %}
+                        <div class="custom-control custom-checkbox">
+                            <input value="{{ category.id }}"
+                                    name="{{ form.categories.name }}"
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    id="{{ category.id }}"
+                                    {% if category.id in form.categories.value %}checked{% endif %}>
+                            <label class="custom-control-label" for="{{ category.id }}">{{ category }}</label>
+                        </div>
+                    {% endfor %}
+
+                    <hr class="mb-4">
+                    <button class="btn btn-primary btn-lg btn-block" type="submit">Create</button>
                 </form>
             </div>
-            {% include "includes/side-widgets.html" with categories=categories %}
+            {% include "includes/side-widgets.html" %}
         </div>
     </div>
 {% endblock content %}

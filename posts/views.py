@@ -6,7 +6,7 @@ from django.db.models import Q
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 # Created
 from posts.models import Post, Category
-from posts.forms import PostForm
+from posts.forms import PostForm, CommentForm
 
 
 # Global variable to be usable with multi view functions
@@ -55,8 +55,37 @@ def home_page(request, category=None):
     return render(request, 'home.html', context)
 
 
+def post_details(request, id):
+    """Show post details and handle the comment form."""
+    try:
+        post = Post.objects.get(id=id)
+
+        form = CommentForm(request.POST)
+        if request.method == 'POST':
+            # Model.commenter
+            form.instance.commenter = request.user
+            # Model.post
+            form.instance.post = post
+            form.instance.content = request.POST.get('content')
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Thanks for your comment!!.')
+                return redirect(reverse('posts:details', kwargs={'id': post.id}))
+
+    except (Post.DoesNotExist, ValueError):
+        messages.warning(request, 'Post does not exist.')
+        return redirect('posts:home_page')
+
+    context = {
+        'categories': categories,
+        'post': post,
+    }
+
+    return render(request, 'post-details.html', context)
+
+
 def post_view(request, id=None):
-    """Wrap-up the post model CRUD operations in single view."""
+    """Wrap-up the post model Create Update Delete operations in single view."""
     context = {
         'categories': categories,
         'title': None,
@@ -64,20 +93,12 @@ def post_view(request, id=None):
         'post': None,
     }
 
-    # Get request.
-    if request.resolver_match.url_name == 'details':
-        # NOTE: Fix the 404 returning
-        context['post'] = get_object_or_404(Post, id=id)
-        return render(request, 'post-details.html', context)
-
     try:
         author = request.user.author
 
         # If user is an author
         if author:
-
             # Post model CRUD operations.
-
             # Delete request.
             if request.resolver_match.url_name == 'delete':
                 post = get_object_or_404(Post, id=id)

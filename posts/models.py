@@ -12,7 +12,7 @@ user = settings.AUTH_USER_MODEL
 
 class Author(models.Model):
     name = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile_pic = FileBrowseField(max_length=200)
+    profile_pic = FileBrowseField(max_length=200, null=True, blank=True)
 
     def __str__(self):
         return self.name.username
