@@ -12,4 +12,4 @@ Before you begin, ensure you have met the following requirements:
 - In the command-line
 - git clone https://github.com/mohamedayman28/simple_blog
 - cd simple_blog/
-- pip install -r requiremnts.txt
+- pip install -r requirements.txt
