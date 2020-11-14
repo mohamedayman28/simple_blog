@@ -1,4 +1,7 @@
 # Django Simple Blog
+
+![image](https://raw.githubusercontent.com/mohamedayman28/simple_blog/master/github_simple_blog.jpg)
+
 This is a simple Blog website built with Django. It contains all the essentials for adding posts and comment on it, besides a full authentication system for users.
 
 ## Prerequisites
