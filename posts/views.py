@@ -84,8 +84,9 @@ def post_details(request, id):
     return render(request, 'post-details.html', context)
 
 
-def post_view(request, id=None):
-    """Wrap-up the post model Create Update Delete operations in single view."""
+@login_required(login_url="accounts:signin")
+def post_form(request, id=None):
+    """Wrap-up the post model Create/Update/Delete operation in single view."""
     context = {
         'categories': categories,
         'title': None,

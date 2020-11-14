@@ -39,6 +39,10 @@
                         <div class="mb-3">
                             <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                             {{ field|add_class:"form-control" }}
+                            {# Field errors #}
+                            {% if field.errors %}
+                                <small class="form-text text-danger">{{ field.errors }}</small>
+                            {% endif %}
                         </div>
                         {% endif %}
                     {% endfor %}

@@ -138,11 +138,6 @@ STATIC_ROOT = BASE_DIR / 'static_in_deploy'
 FILEBROWSER_DIRECTORY = ''
 DIRECTORY = ''
 
-# Authentications settings
-
-LOGIN_REDIRECT_URL = 'posts:create'
-LOGOUT_REDIRECT_URL = 'posts:home_page'
-
 # TinyMce settings
 
 TINYMCE_DEFAULT_CONFIG = {

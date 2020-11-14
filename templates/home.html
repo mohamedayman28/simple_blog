@@ -12,7 +12,6 @@
                     {% for post in posts  %}
                         {# Blog Post #}
                         <div class="card mb-4">
-                            {# If statement is for test purposes #}
                             {% if post.thumbnail %}
                                 <img class="card-img-top" src="{{ post.thumbnail.url }}">
                             {% endif %}
@@ -23,6 +22,7 @@
                             </div>
                             <div class="card-footer text-muted">
                                 <span class="btn btn-light disabled">Posted on {{ post.timestamp.date }}</span>
+                                {# CRUD operations by author user #}
                                 {% if post.author.name == user.author.name %}
                                     <span class="btn btn-danger float-right mx-2"
                                         data-toggle="modal" data-target="#deleteModal">

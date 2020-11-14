@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+
+    <style type="text/css">
+        .alert-warning ul{
+            list-style-type: none;
+            padding: 0;
+        }
+    </style>
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-4">
+                <h4 class="mb-3">{{ title }}</h4>
+                {{ form.media }}
+                {% if form.non_field_errors %}
+                    <div class="alert alert-warning">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+                <form action="." method="POST">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field|add_class:"form-control" }}
+                            {# Field errors #}
+                            {% if field.errors %}
+                                <small class="form-text text-danger">{{ field.errors }}</small>
+                            {% else %}
+                            {% if field.name == 'email' %}
+                                <small class="form-text text-muted">Saved for password reset.</small>
+                            {% endif %}
+                                <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                    <hr class="mb-4">
+
+                    <button class="btn btn-primary btn-lg btn-block" type="submit">Create</button>
+                </form>
+            </div>
+
+            <div class="col-md-4"></div>
+
+            {% include "includes/side-widgets.html" with categories=categories %}
+        </div>
+    </div>
+{% endblock content %}

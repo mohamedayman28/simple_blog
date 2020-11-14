@@ -9,6 +9,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # Posts app
     path('', include('posts.urls')),
+    # Accounts
     path('accounts/', include('accounts.urls')),
     # TinyMce
     path('tinymce/', include('tinymce.urls')),
