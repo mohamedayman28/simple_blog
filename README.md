@@ -11,8 +11,6 @@ Before you begin, ensure you have met the following requirements:
 
 ## Installing
 - Activate your virtualenv
-- Create work directory
-- In the command-line
 - git clone https://github.com/mohamedayman28/simple_blog
 - cd simple_blog/
 - pip install -r requirements.txt
