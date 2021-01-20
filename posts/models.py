@@ -32,7 +32,6 @@ class Post(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=50)
     thumbnail = FileBrowseField(max_length=200, null=True)
-    overview = models.CharField(max_length=300)
     content = HTMLField(null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     categories = models.ManyToManyField(Category)
@@ -70,7 +69,3 @@ class UserInteraction(models.Model):
 
 class Comment(UserInteraction):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-
-
-class Replay(UserInteraction):
-    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)

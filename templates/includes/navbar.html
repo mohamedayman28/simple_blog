@@ -28,7 +28,7 @@
                                 <a class="dropdown-item" href="#"><b>{{ user.username }}</b></a>
                                 <hr>
                                 <a class="dropdown-item" href="{% url 'accounts:logout' %}">Logout</a>
-                                <a class="dropdown-item" href="{% url 'accounts:update' request.user.id %}">Update info</a>
+                                <a class="dropdown-item" href="{% url 'accounts:user_update' request.user.id %}">Update info</a>
                             {% else %}
                                 <a class="dropdown-item" href="{% url 'accounts:login' %}">Login</a>
                                 <a class="dropdown-item" href="{% url 'accounts:signup' %}">Sign-up</a>

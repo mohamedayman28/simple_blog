@@ -24,6 +24,7 @@
                 <!-- Post Content -->
                 {{ post.content|safe }}
                 <hr>
+                <h2>Comments</h2>
 
                 {# Comments Form #}
                 {% if user.is_authenticated %}
@@ -39,11 +40,12 @@
                             </form>
                         </div>
                     </div>
+                {% else %}
+                    <p><a href="{% url 'accounts:login' %}">Login</a> to add commnet.</p>
                 {% endif %}
 
-                <!-- Comment with its replies -->
+                <!-- Comments -->
                 {% for comment in post.comment_set.all %}
-                    {# Comment #}
                     <div class="media mb-4">
                         {# Profile picture #}
                         {% if comment.commenter.author.profile_pic %}
@@ -74,6 +76,7 @@
                     </div> {# Parent comment #}
                 {% endfor %}
             </div>
+
             {% include "includes/side-widgets.html" with categories=categories %}
         </div>
         <!-- /.row -->

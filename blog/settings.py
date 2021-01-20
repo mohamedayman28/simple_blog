@@ -143,7 +143,7 @@ DIRECTORY = ''
 TINYMCE_DEFAULT_CONFIG = {
     # Comment to maximize the width and height according to the parent div
     # 'height': 360,
-    # 'width': 970,
+    'width': 770,
     'cleanup_on_startup': True,
     'custom_undo_redo_levels': 20,
     'selector':

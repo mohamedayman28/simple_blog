@@ -41,7 +41,15 @@
 
                     <hr class="mb-4">
 
-                    <button class="btn btn-primary btn-lg btn-block" type="submit">Create</button>
+                    {% with request.resolver_match as match %}
+                        {% if match.url_name == 'login' %}
+                            <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+                        {% elif match.url_name == 'Signup' %}
+                            <button class="btn btn-primary btn-lg btn-block" type="submit">Signup</button>
+                        {% else %}
+                            <button class="btn btn-primary btn-lg btn-block" type="submit">Update</button>
+                        {% endif %}
+                    {% endwith %}
                 </form>
             </div>
 
