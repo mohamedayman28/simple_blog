@@ -41,11 +41,16 @@ cd django_simple_blog
 pip install -r requirements.txt
 ```
 
-### 5. Now run the app with:
+### 5 Migrate
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
+### 6. Now run the app with:
 ```bash
 python manage.py runserver
 ```
-
 
 * Overview of how default [DRF authentication](https://www.django-rest-framework.org/api-guide/authentication/) works.
 * I use the dj-rest-auth for API authentication, read more about it [here](https://dj-rest-auth.readthedocs.io/en/latest/index.html).
