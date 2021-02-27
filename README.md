@@ -46,6 +46,6 @@ pip install -r requirements.txt
 python manage.py runserver
 ```
 
-To use the API provided, you may want to use a client app like [Postman](https://www.postman.com/) or [Insomnia](https://insomnia.rest/), and read through the next usage  pages:
+
 * Overview of how default [DRF authentication](https://www.django-rest-framework.org/api-guide/authentication/) works.
 * I use the dj-rest-auth for API authentication, read more about it [here](https://dj-rest-auth.readthedocs.io/en/latest/index.html).
