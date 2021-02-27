@@ -32,7 +32,7 @@ source blog_env/bin/activate
 ### 4. Download the repository:
 ```bash
 git init
-git https://github.com/mohamedayman28/django_simple_blog
+git clone https://github.com/mohamedayman28/django_simple_blog
 ```
 
 ### 4. After, successfully, activate the virtualenv and download the repository, install required packages:
