@@ -1,8 +1,10 @@
 from django.conf import settings
+from django.utils import timezone
 from django.shortcuts import reverse
 from django.db import models
 from django.contrib.auth.models import User
 
+# Third party.
 from filebrowser.fields import FileBrowseField
 from tinymce import HTMLField
 
@@ -55,17 +57,15 @@ class Post(models.Model):
         return reverse('posts:delete', kwargs={'id': self.id})
 
 
-class UserInteraction(models.Model):
-    """Mutual fields within Comment and Replay models"""
+class Comment(models.Model):
+    # Related post.
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
     commenter = models.ForeignKey(user, on_delete=models.CASCADE)
     content = models.TextField()
+    timestamp = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.commenter.username
 
     class Meta:
-        abstract = True
-
-
-class Comment(UserInteraction):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+        ordering = ['-timestamp']

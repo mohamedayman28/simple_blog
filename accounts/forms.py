@@ -7,12 +7,13 @@ class CreateUserForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
     class Meta:
-        """Redefine Meta class to add email field. succeed"""
+        """ Redefine Meta class to add email field."""
         model = User
         fields = ('username', 'email')
 
     def save(self, commit=True):
-        """Add email before save the User model."""
+        """ Add email before save the User model."""
+
         # Deactivate UserCreationForm save method.
         user = super().save(commit=False)
         # Get user email value from submitted form.

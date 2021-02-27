@@ -1,20 +1,22 @@
+
+from posts.models import Post, Category
+from posts.forms import PostForm, CommentForm
+
 # Defaults
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
 from django.shortcuts import render, redirect, reverse, get_object_or_404
-# Created
-from posts.models import Post, Category
-from posts.forms import PostForm, CommentForm
 
 
-# Global variable to be usable with multi view functions
+# Global variable to be usable within multi view functions
 categories = Category.objects.all()
 
 
 def home_page(request, category=None):
     """ Mutual view for all posts and search results."""
+
     title = 'Home page'
     posts = Post.objects.all()
 
@@ -56,17 +58,19 @@ def home_page(request, category=None):
 
 
 def post_details(request, id):
-    """Show post details and handle the comment form."""
+    """ Show post details and handle the comment form."""
+
     try:
         post = Post.objects.get(id=id)
 
-        form = CommentForm(request.POST)
+        # Handle Comment form.
         if request.method == 'POST':
-            # Model.commenter
+            form = CommentForm(request.POST)
+            # Populate form instance.
             form.instance.commenter = request.user
-            # Model.post
             form.instance.post = post
             form.instance.content = request.POST.get('content')
+
             if form.is_valid():
                 form.save()
                 messages.success(request, 'Thanks for your comment!!.')
@@ -86,7 +90,7 @@ def post_details(request, id):
 
 @login_required(login_url="accounts:signin")
 def post_form(request, id=None):
-    """Wrap-up the post model Create/Update/Delete operation in single view."""
+    """ Create/Update/Delete operations in one view."""
     context = {
         'categories': categories,
         'title': None,

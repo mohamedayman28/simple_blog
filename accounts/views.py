@@ -13,9 +13,7 @@ class LoginView(SuccessMessageMixin, auth_views.LoginView):
     redirect_authenticated_user = True
     success_message = 'You have loggedin successfully!'
 
-    extra_context = {
-        'title': 'Login',
-    }
+    extra_context = {'title': 'Login'}
 
     def get_success_url(self):
         return reverse('posts:home_page')

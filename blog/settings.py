@@ -31,9 +31,11 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    # Created Apps
+    # Created Apps.
     'posts',
+    'posts_api',
     'accounts',
+
     # Defaults
     'django.contrib.admin',
     'django.contrib.auth',
@@ -41,10 +43,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     # Third party
     'filebrowser',
     'tinymce',
     'widget_tweaks',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
 ]
 
 MIDDLEWARE = [
@@ -133,17 +139,17 @@ MEDIA_ROOT = BASE_DIR / 'media_root'
 # For deployment
 STATIC_ROOT = BASE_DIR / 'static_in_deploy'
 
-# Filebrowser settings
+# Third party apps
 
-FILEBROWSER_DIRECTORY = ''
+ACCOUNT_LOGOUT_ON_GET = True  # Dj rest auth
+
+FILEBROWSER_DIRECTORY = ''  # Filebrowser
 DIRECTORY = ''
-
-# TinyMce settings
 
 TINYMCE_DEFAULT_CONFIG = {
     # Comment to maximize the width and height according to the parent div
     # 'height': 360,
-    'width': 770,
+    # 'width': 770,  # Commented for the size be 100% within the post form.
     'cleanup_on_startup': True,
     'custom_undo_redo_levels': 20,
     'selector':
