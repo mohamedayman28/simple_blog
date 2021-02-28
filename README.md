@@ -2,7 +2,7 @@
 
 ![image](https://raw.githubusercontent.com/mohamedayman28/simple_blog/master/github_simple_blog.jpg)
 
-Blog contains all the essentials from a WYSIWYG editor to a full authentication system, along with RESTFul API.
+The blog contains all the writing essentials from a WYSIWYG editor to a full authentication system, along with RESTFul API.
 
 ## Setting up locally
 
@@ -46,11 +46,26 @@ pip install -r requirements.txt
 python manage.py makemigrations
 python manage.py migrate
 ```
+If the migrations doesn't apply to all apps, you may need to migrate each app individually
+```bash
+python manage.py makemigrations posts
+python manage.py makemigrations posts_api
+python manage.py migrate posts
+python manage.py migrate posts_api
+```
 
 ### 6. Now run the app with:
 ```bash
 python manage.py runserver
 ```
+### Handle FileBrowser error
+You may encounter this log error while using filebrowser
+```
+Error finding Upload-Folder (site.storage.location + site.directory). Maybe it does not exist?
+```
+If that the case, just make sure to have a folder in the root directory equal to the specified name in the settings.MEDIA_ROOT
 
+### Before using the API
+It's advisable to have an overview of how Django REST handles authentication before using the blog API.
 * Overview of how default [DRF authentication](https://www.django-rest-framework.org/api-guide/authentication/) works.
 * I use the dj-rest-auth for API authentication, read more about it [here](https://dj-rest-auth.readthedocs.io/en/latest/index.html).
