@@ -49,9 +49,7 @@ python manage.py migrate
 If the migrations doesn't apply to all apps, you may need to migrate each app individually
 ```bash
 python manage.py makemigrations posts
-python manage.py makemigrations posts_api
 python manage.py migrate posts
-python manage.py migrate posts_api
 ```
 
 ### 6. Now run the app with:
