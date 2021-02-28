@@ -63,14 +63,14 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
-### Handle FileBrowser error
+# Handle FileBrowser error
 You may encounter this log error while using filebrowser
 ```
 Error finding Upload-Folder (site.storage.location + site.directory). Maybe it does not exist?
 ```
 If that the case, create folder in the app root directory named as the name set in the settings.MEDIA_ROOT
 
-### Before using the API
+# Using the API
 It's advisable to have an overview of how Django REST handles authentication before using the blog API.
 * Overview of how default [DRF authentication](https://www.django-rest-framework.org/api-guide/authentication/) works.
 * I use the dj-rest-auth for API authentication, read more about it [here](https://dj-rest-auth.readthedocs.io/en/latest/index.html).
