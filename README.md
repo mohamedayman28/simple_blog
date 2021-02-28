@@ -52,16 +52,23 @@ python manage.py makemigrations posts
 python manage.py migrate posts
 ```
 
-### 6. Now run the app with:
+### 6. Create Super User
+To access the admin page, and from there create author
+```bash
+python manage.py createsuperuser
+```
+
+### 7. Now run the app:
 ```bash
 python manage.py runserver
 ```
+
 ### Handle FileBrowser error
 You may encounter this log error while using filebrowser
 ```
 Error finding Upload-Folder (site.storage.location + site.directory). Maybe it does not exist?
 ```
-If that the case, just make sure to have a folder in the root directory equal to the specified name in the settings.MEDIA_ROOT
+If that the case, create folder in the app root directory named as the name set in the settings.MEDIA_ROOT
 
 ### Before using the API
 It's advisable to have an overview of how Django REST handles authentication before using the blog API.
