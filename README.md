@@ -6,7 +6,7 @@ The blog contains all the writing essentials from a WYSIWYG editor to a full aut
 
 ## Setting up locally
 
-To set the site up locally, you'll need to have Python 3.6 or higher version installed on your local system. Once that is done and ready, proceed to download the repository with using the next steps.
+To set the site up locally, you'll need to have Python 3.6 or higher version installed on your local machine. Once that is done and ready, proceed to download the repository with the next steps.
 
 ### 1. Make the directory for development:
 ```bash
@@ -16,7 +16,7 @@ cd simple_blog
 
 ### 2. Create virtualenv:
 
-**Note:** You may want to change the Python version.
+**Note:** You may want to change the Python version, I'm also using Linux Ubuntu-based OS, so depending on your OS you may use different commands for creating a python virtual environment.
 
 ```bash
 sudo apt-get install python3-pip
@@ -35,7 +35,7 @@ git init
 git clone https://github.com/mohamedayman28/django_simple_blog
 ```
 
-### 4. After, successfully, activate the virtualenv and download the repository, install required packages:
+### 4. After, successfully, activating the virtualenv and download the repository, install required packages:
 ```bash
 cd django_simple_blog
 pip install -r requirements.txt
@@ -53,12 +53,12 @@ python manage.py migrate posts
 ```
 
 ### 6. Create Super User
-To access the admin page, and from there create author
+Only authors allowed to write posts, for that, you first need to access the admin panel and create an author, thus need to be a super-user:
 ```bash
 python manage.py createsuperuser
 ```
 
-### 7. Now run the app:
+### 7. Run the app:
 ```bash
 python manage.py runserver
 ```
